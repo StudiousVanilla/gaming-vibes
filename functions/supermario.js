@@ -5,7 +5,7 @@ exports.handler = async () => {
 
     //return respons eto the brrowser
     return{
-        status: 200,
+        statusCode: 200,
         body: JSON.stringify(data)
     }
 }
