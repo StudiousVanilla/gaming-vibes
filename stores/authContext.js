@@ -13,6 +13,7 @@ const AuthContext = createContext({
 export const AuthContextProvider = ({ children }) =>{
 
     const [user, setUser] = useState(null)
+    const [authReady, setAuthReady] = useState(false)
 
     useEffect(()=>{
 
@@ -29,6 +30,13 @@ export const AuthContextProvider = ({ children }) =>{
         netlifyIdentify.on('logout', ()=>{
             setUser(null)
             console.log('logout event');
+        })
+
+        // user automtically provided by netlifyIdentify, then use setstate to update our state varible 'user'
+        netlifyIdentify.on('init', (user)=>{
+            setUser(user)
+            setAuthReady(true)
+            console.log('init event');
         })
 
         // init netlify identify connection
@@ -51,7 +59,7 @@ export const AuthContextProvider = ({ children }) =>{
     }
 
     // don't need key:value repetitons (login: login => login)
-    const context = {user, login, logout}
+    const context = {user, login, logout, authReady}
 
 
 // just acts as a wrapper for components inside
